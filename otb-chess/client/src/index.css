@@ -1,0 +1,722 @@
+/*
+ * OTB Chess — Global Design System
+ * Design Philosophy: "The Board Room" — Apple Minimalism + Chess.com Green
+ * 
+ * Core Principles:
+ * - Radical whitespace — sections breathe, nothing is crowded
+ * - One primary action per screen — every page has a single clear CTA
+ * - Chess.com green as primary brand color, white as the canvas
+ * - Illustrations do the heavy lifting — minimal explanatory text
+ * 
+ * Color System:
+ * - Background: #FFFFFF / #F0F5EE (sage)
+ * - Primary: #3D6B47 (deep forest green)
+ * - Board Green: #769656 (chess.com green)
+ * - Light Square: #EEEED2 (cream)
+ * - Text: #1A1A1A / #6B7280
+ * 
+ * Typography:
+ * - Display: Clash Display (bold, geometric, edgy)
+ * - Body: Inter (clean, legible)
+ */
+
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  /* OTB Chess Custom Tokens */
+  --color-chess-green: var(--chess-green);
+  --color-chess-green-dark: var(--chess-green-dark);
+  --color-chess-green-light: var(--chess-green-light);
+  --color-chess-cream: var(--chess-cream);
+  --color-chess-cream-dark: var(--chess-cream-dark);
+  --color-chess-sage: var(--chess-sage);
+}
+
+:root {
+  /* OTB Chess Brand Colors */
+  --chess-green: oklch(0.44 0.12 145);        /* #3D6B47 deep forest green */
+  --chess-green-dark: oklch(0.32 0.10 145);   /* #2A4A32 darker green */
+  --chess-green-light: oklch(0.55 0.13 145);  /* #769656 chess.com board green */
+  --chess-cream: oklch(0.95 0.02 95);         /* #EEEED2 light square cream */
+  --chess-cream-dark: oklch(0.88 0.03 95);    /* #D4D4B0 slightly darker cream */
+  --chess-sage: oklch(0.97 0.01 145);         /* #F0F5EE sage white */
+
+  /* Semantic tokens */
+  --primary: var(--chess-green);
+  --primary-foreground: oklch(1 0 0);
+  --secondary: var(--chess-sage);
+  --secondary-foreground: oklch(0.2 0.05 145);
+  --sidebar-primary: var(--chess-green);
+  --sidebar-primary-foreground: oklch(1 0 0);
+  --chart-1: var(--chess-green);
+  --chart-2: var(--chess-green-light);
+  --chart-3: var(--chess-cream);
+  --chart-4: oklch(0.65 0.10 145);
+  --chart-5: oklch(0.75 0.08 145);
+
+  --radius: 0.5rem;
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.12 0.01 145);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.12 0.01 145);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.12 0.01 145);
+  --muted: oklch(0.97 0.01 145);
+  --muted-foreground: oklch(0.50 0.02 145);
+  --accent: oklch(0.97 0.01 145);
+  --accent-foreground: oklch(0.2 0.05 145);
+  --destructive: oklch(0.577 0.245 27.325);
+  --destructive-foreground: oklch(0.985 0 0);
+  --border: oklch(0.90 0.02 145);
+  --input: oklch(0.90 0.02 145);
+  --ring: var(--chess-green);
+  --sidebar: oklch(0.98 0.01 145);
+  --sidebar-foreground: oklch(0.12 0.01 145);
+  --sidebar-accent: oklch(0.95 0.02 145);
+  --sidebar-accent-foreground: oklch(0.2 0.05 145);
+  --sidebar-border: oklch(0.90 0.02 145);
+  --sidebar-ring: var(--chess-green);
+}
+
+/* ─── Dark Mode: Deep Forest Green CTA Aesthetic ─────────────────────────────
+ * Background: deep forest green (#2A3D2E)
+ * Sections alternate between darker/lighter greens
+ * Chess board pattern uses lighter green squares
+ * Text: white / off-white
+ * Cards: slightly lighter green surfaces
+ * ─────────────────────────────────────────────────────────────────────────── */
+.dark {
+  --background: oklch(0.20 0.06 145);           /* deep forest green */
+  --foreground: oklch(0.97 0.01 95);            /* near-white cream */
+  --card: oklch(0.25 0.07 145);                 /* slightly lighter green surface */
+  --card-foreground: oklch(0.97 0.01 95);
+  --popover: oklch(0.25 0.07 145);
+  --popover-foreground: oklch(0.97 0.01 95);
+  --primary: oklch(0.55 0.13 145);              /* brighter board green for dark mode */
+  --primary-foreground: oklch(1 0 0);
+  --secondary: oklch(0.27 0.07 145);
+  --secondary-foreground: oklch(0.90 0.02 95);
+  --muted: oklch(0.27 0.07 145);
+  --muted-foreground: oklch(0.70 0.04 145);
+  --accent: oklch(0.30 0.08 145);
+  --accent-foreground: oklch(0.97 0.01 95);
+  --destructive: oklch(0.704 0.191 22.216);
+  --destructive-foreground: oklch(0.985 0 0);
+  --border: oklch(1 0 0 / 0.10);
+  --input: oklch(1 0 0 / 0.12);
+  --ring: oklch(0.55 0.13 145);
+  --sidebar: oklch(0.22 0.06 145);
+  --sidebar-foreground: oklch(0.97 0.01 95);
+  --sidebar-accent: oklch(0.27 0.07 145);
+  --sidebar-accent-foreground: oklch(0.97 0.01 95);
+  --sidebar-border: oklch(1 0 0 / 0.10);
+  --sidebar-ring: oklch(0.55 0.13 145);
+
+  /* OTB Chess dark brand overrides */
+  --chess-green: oklch(0.55 0.13 145);          /* brighter in dark mode */
+  --chess-green-dark: oklch(0.44 0.12 145);
+  --chess-green-light: oklch(0.65 0.14 145);
+  --chess-cream: oklch(0.35 0.06 145 / 0.5);   /* muted cream squares */
+  --chess-sage: oklch(0.27 0.07 145);           /* dark sage surface */
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  button:not(:disabled),
+  [role="button"]:not([aria-disabled="true"]),
+  [type="button"]:not(:disabled),
+  [type="submit"]:not(:disabled),
+  [type="reset"]:not(:disabled),
+  a[href],
+  select:not(:disabled),
+  input[type="checkbox"]:not(:disabled),
+  input[type="radio"]:not(:disabled) {
+    @apply cursor-pointer;
+  }
+
+  h1, h2, h3 {
+    font-family: 'Clash Display', 'Inter', sans-serif;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+}
+
+@layer components {
+  .container {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .flex {
+    min-height: 0;
+    min-width: 0;
+  }
+
+  @media (min-width: 640px) {
+    .container {
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .container {
+      padding-left: 2rem;
+      padding-right: 2rem;
+      max-width: 1280px;
+    }
+  }
+
+  /* OTB Chess Custom Components */
+  .chess-board-bg {
+    background-image: 
+      repeating-conic-gradient(
+        oklch(0.95 0.02 95) 0% 25%, 
+        oklch(0.55 0.13 145 / 0.06) 0% 50%
+      );
+    background-size: 40px 40px;
+  }
+
+  .dark .chess-board-bg {
+    background-image:
+      repeating-conic-gradient(
+        oklch(0.28 0.08 145) 0% 25%,
+        oklch(0.22 0.06 145) 0% 50%
+      );
+    background-size: 40px 40px;
+  }
+
+  .btn-chess-primary {
+    background-color: oklch(0.44 0.12 145);
+    color: white;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 0.875rem;
+    letter-spacing: 0.025em;
+    padding: 0.75rem 1.75rem;
+    border-radius: 0.375rem;
+    transition: all 0.2s ease;
+    border: none;
+    cursor: pointer;
+  }
+
+  .btn-chess-primary:hover {
+    background-color: oklch(0.38 0.11 145);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 16px oklch(0.44 0.12 145 / 0.3);
+  }
+
+  .btn-chess-secondary {
+    background-color: transparent;
+    color: oklch(0.44 0.12 145);
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 0.875rem;
+    letter-spacing: 0.025em;
+    padding: 0.75rem 1.75rem;
+    border-radius: 0.375rem;
+    border: 1.5px solid oklch(0.44 0.12 145);
+    transition: all 0.2s ease;
+    cursor: pointer;
+  }
+
+  .btn-chess-secondary:hover {
+    background-color: oklch(0.44 0.12 145 / 0.06);
+    transform: translateY(-1px);
+  }
+
+  .dark .btn-chess-secondary {
+    color: oklch(0.75 0.10 145);
+    border-color: oklch(0.55 0.13 145);
+  }
+
+  .dark .btn-chess-secondary:hover {
+    background-color: oklch(0.55 0.13 145 / 0.15);
+  }
+
+  .card-chess {
+    background: white;
+    border: 1px solid oklch(0.90 0.02 145);
+    border-radius: 0.75rem;
+    transition: all 0.2s ease;
+  }
+
+  .card-chess:hover {
+    border-color: oklch(0.55 0.13 145 / 0.4);
+    box-shadow: 0 8px 32px oklch(0.44 0.12 145 / 0.08);
+    transform: translateY(-2px);
+  }
+
+  .dark .card-chess {
+    background: oklch(0.25 0.07 145);
+    border-color: oklch(1 0 0 / 0.10);
+  }
+
+  .dark .card-chess:hover {
+    border-color: oklch(0.55 0.13 145 / 0.6);
+    box-shadow: 0 8px 32px oklch(0 0 0 / 0.3);
+  }
+
+  .tag-elo {
+    background: oklch(0.97 0.01 145);
+    color: oklch(0.44 0.12 145);
+    font-family: 'JetBrains Mono', 'Courier New', monospace;
+    font-weight: 700;
+    font-size: 0.75rem;
+    padding: 0.2rem 0.6rem;
+    border-radius: 0.25rem;
+    border: 1px solid oklch(0.90 0.02 145);
+    letter-spacing: 0.05em;
+  }
+
+  .dark .tag-elo {
+    background: oklch(0.30 0.08 145);
+    color: oklch(0.75 0.10 145);
+    border-color: oklch(1 0 0 / 0.12);
+  }
+
+  /* Theme toggle button */
+  .theme-toggle {
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    border: 1.5px solid oklch(0.90 0.02 145);
+    background: transparent;
+    color: oklch(0.44 0.12 145);
+    cursor: pointer;
+  }
+
+  .theme-toggle:hover {
+    background: oklch(0.97 0.01 145);
+    border-color: oklch(0.44 0.12 145 / 0.4);
+  }
+
+  .dark .theme-toggle {
+    border-color: oklch(1 0 0 / 0.15);
+    color: oklch(0.80 0.08 95);
+  }
+
+  .dark .theme-toggle:hover {
+    background: oklch(0.28 0.08 145);
+    border-color: oklch(0.55 0.13 145 / 0.5);
+  }
+
+  /* Fade-in animations */
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(24px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes slideInLeft {
+    from {
+      opacity: 0;
+      transform: translateX(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  .animate-fade-in-up {
+    animation: fadeInUp 0.5s ease-out forwards;
+  }
+
+  .animate-fade-in {
+    animation: fadeIn 0.4s ease-out forwards;
+  }
+
+  .animate-slide-in-left {
+    animation: slideInLeft 0.4s ease-out forwards;
+  }
+
+  .delay-100 { animation-delay: 0.1s; }
+  .delay-200 { animation-delay: 0.2s; }
+  .delay-300 { animation-delay: 0.3s; }
+  .delay-400 { animation-delay: 0.4s; }
+  .delay-500 { animation-delay: 0.5s; }
+  .delay-600 { animation-delay: 0.6s; }
+
+  .opacity-0-init {
+    opacity: 0;
+  }
+
+  /* ─── Mobile-first design system ──────────────────────────────────────────
+   * Touch ergonomics: 48px minimum tap targets
+   * Safe area insets: respect iOS notch/home indicator
+   * Spring animations: snappy, native-feel interactions
+   * Bottom-anchored CTAs: thumb-reachable primary actions
+   * ─────────────────────────────────────────────────────────────────────── */
+
+  /* Safe area utilities */
+  .safe-top    { padding-top: env(safe-area-inset-top); }
+  .safe-bottom { padding-bottom: max(env(safe-area-inset-bottom), 1rem); }
+  .safe-left   { padding-left: env(safe-area-inset-left); }
+  .safe-right  { padding-right: env(safe-area-inset-right); }
+
+  /* Touch target enforcement */
+  .touch-target {
+    min-height: 48px;
+    min-width: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Mobile CTA — full-width, bottom-anchored, thumb-friendly */
+  .mobile-cta {
+    width: 100%;
+    min-height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0 1.5rem;
+    background-color: oklch(0.44 0.12 145);
+    color: white;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 0.9375rem;
+    letter-spacing: 0.01em;
+    border-radius: 0.875rem;
+    border: none;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    transition: transform 0.12s cubic-bezier(0.34, 1.56, 0.64, 1),
+                box-shadow 0.12s ease,
+                background-color 0.15s ease;
+  }
+
+  .mobile-cta:active {
+    transform: scale(0.97);
+    box-shadow: none;
+  }
+
+  .mobile-cta:not(:disabled):hover {
+    background-color: oklch(0.38 0.11 145);
+    box-shadow: 0 6px 20px oklch(0.44 0.12 145 / 0.35);
+  }
+
+  .mobile-cta:disabled {
+    opacity: 0.38;
+    cursor: not-allowed;
+  }
+
+  .dark .mobile-cta {
+    background-color: oklch(0.55 0.13 145);
+  }
+
+  .dark .mobile-cta:not(:disabled):hover {
+    background-color: oklch(0.60 0.14 145);
+    box-shadow: 0 6px 20px oklch(0.55 0.13 145 / 0.35);
+  }
+
+  /* Mobile ghost CTA */
+  .mobile-cta-ghost {
+    width: 100%;
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0 1.5rem;
+    background-color: transparent;
+    color: oklch(0.44 0.12 145);
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 0.875rem;
+    border-radius: 0.875rem;
+    border: 1.5px solid oklch(0.44 0.12 145 / 0.35);
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    transition: all 0.12s ease;
+  }
+
+  .mobile-cta-ghost:active {
+    transform: scale(0.97);
+    background-color: oklch(0.44 0.12 145 / 0.06);
+  }
+
+  .dark .mobile-cta-ghost {
+    color: oklch(0.75 0.10 145);
+    border-color: oklch(0.55 0.13 145 / 0.4);
+  }
+
+  .dark .mobile-cta-ghost:active {
+    background-color: oklch(0.55 0.13 145 / 0.12);
+  }
+
+  /* Mobile input — optimized for on-screen keyboard */
+  .mobile-input {
+    width: 100%;
+    min-height: 52px;
+    padding: 0 1rem 0 2.75rem;
+    border-radius: 0.875rem;
+    border: 1.5px solid oklch(0.90 0.02 145);
+    background: white;
+    color: oklch(0.12 0.01 145);
+    font-size: 1rem; /* prevents iOS zoom on focus */
+    font-family: 'Inter', sans-serif;
+    outline: none;
+    -webkit-tap-highlight-color: transparent;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    appearance: none;
+    -webkit-appearance: none;
+  }
+
+  .mobile-input:focus {
+    border-color: oklch(0.44 0.12 145);
+    box-shadow: 0 0 0 3px oklch(0.44 0.12 145 / 0.12);
+  }
+
+  .dark .mobile-input {
+    background: oklch(0.26 0.06 145);
+    border-color: oklch(1 0 0 / 0.12);
+    color: white;
+  }
+
+  .dark .mobile-input:focus {
+    border-color: oklch(0.55 0.13 145);
+    box-shadow: 0 0 0 3px oklch(0.55 0.13 145 / 0.20);
+  }
+
+  /* Mobile card — elevated surface */
+  .mobile-card {
+    background: white;
+    border: 1px solid oklch(0.92 0.02 145);
+    border-radius: 1.25rem;
+    overflow: hidden;
+    box-shadow: 0 2px 12px oklch(0 0 0 / 0.05), 0 1px 3px oklch(0 0 0 / 0.04);
+  }
+
+  .dark .mobile-card {
+    background: oklch(0.23 0.065 145);
+    border-color: oklch(1 0 0 / 0.08);
+    box-shadow: 0 2px 12px oklch(0 0 0 / 0.3);
+  }
+
+  /* Mobile section header */
+  .mobile-section-label {
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: oklch(0.50 0.02 145);
+    font-family: 'Inter', sans-serif;
+  }
+
+  .dark .mobile-section-label {
+    color: oklch(0.65 0.06 145);
+  }
+
+  /* Spring scale animation for cards/buttons */
+  @keyframes springIn {
+    0%   { opacity: 0; transform: scale(0.92) translateY(12px); }
+    60%  { opacity: 1; transform: scale(1.01) translateY(-2px); }
+    100% { opacity: 1; transform: scale(1) translateY(0); }
+  }
+
+  @keyframes slideUpFade {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes slideDownFade {
+    from { opacity: 0; transform: translateY(-12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes scaleIn {
+    from { opacity: 0; transform: scale(0.88); }
+    to   { opacity: 1; transform: scale(1); }
+  }
+
+  @keyframes pulse-ring {
+    0%   { box-shadow: 0 0 0 0 oklch(0.44 0.12 145 / 0.4); }
+    70%  { box-shadow: 0 0 0 10px oklch(0.44 0.12 145 / 0); }
+    100% { box-shadow: 0 0 0 0 oklch(0.44 0.12 145 / 0); }
+  }
+
+  .animate-spring-in {
+    animation: springIn 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  }
+
+  .animate-slide-up-fade {
+    animation: slideUpFade 0.35s ease-out forwards;
+  }
+
+  .animate-slide-down-fade {
+    animation: slideDownFade 0.3s ease-out forwards;
+  }
+
+  .animate-scale-in {
+    animation: scaleIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  }
+
+  .animate-pulse-ring {
+    animation: pulse-ring 1.5s ease-out infinite;
+  }
+
+  /* Stagger delays for list items */
+  .stagger-1 { animation-delay: 0.05s; }
+  .stagger-2 { animation-delay: 0.10s; }
+  .stagger-3 { animation-delay: 0.15s; }
+  .stagger-4 { animation-delay: 0.20s; }
+  .stagger-5 { animation-delay: 0.25s; }
+  .stagger-6 { animation-delay: 0.30s; }
+
+  /* Prevent iOS overscroll bounce on modal sheets */
+  .overscroll-none {
+    overscroll-behavior: none;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Bottom sheet handle */
+  .sheet-handle {
+    width: 2.5rem;
+    height: 0.25rem;
+    background: oklch(0.85 0.02 145);
+    border-radius: 9999px;
+    margin: 0.75rem auto 0;
+  }
+
+  .dark .sheet-handle {
+    background: oklch(1 0 0 / 0.15);
+  }
+
+  /* Floating bottom action bar */
+  .mobile-action-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 0.75rem 1rem max(env(safe-area-inset-bottom), 1rem);
+    background: white;
+    border-top: 1px solid oklch(0.92 0.02 145);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    z-index: 50;
+  }
+
+  .dark .mobile-action-bar {
+    background: oklch(0.22 0.06 145 / 0.95);
+    border-top-color: oklch(1 0 0 / 0.08);
+  }
+
+  /* Pill tab bar */
+  .pill-tabs {
+    display: flex;
+    gap: 0.25rem;
+    background: oklch(0.96 0.01 145);
+    padding: 0.25rem;
+    border-radius: 0.875rem;
+  }
+
+  .dark .pill-tabs {
+    background: oklch(0.26 0.07 145);
+  }
+
+  .pill-tab {
+    flex: 1;
+    min-height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.375rem;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    border-radius: 0.625rem;
+    border: none;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    transition: all 0.18s cubic-bezier(0.34, 1.56, 0.64, 1);
+    color: oklch(0.50 0.02 145);
+    background: transparent;
+  }
+
+  .dark .pill-tab {
+    color: oklch(0.65 0.06 145);
+  }
+
+  .pill-tab.active {
+    background: white;
+    color: oklch(0.44 0.12 145);
+    box-shadow: 0 1px 4px oklch(0 0 0 / 0.10);
+  }
+
+  .dark .pill-tab.active {
+    background: oklch(0.30 0.08 145);
+    color: oklch(0.75 0.10 145);
+    box-shadow: 0 1px 4px oklch(0 0 0 / 0.30);
+  }
+
+  /* Status dot */
+  .status-dot-online  { background: #34d399; box-shadow: 0 0 0 2px #34d39930; }
+  .status-dot-offline { background: oklch(0.75 0 0); }
+}
