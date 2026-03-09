@@ -67,7 +67,7 @@ PIECE_MODEL = "chess_pieces_v7.onnx"
 | 6 | Inference — synthetic chessboard | PASS |
 | 7 | Detection schema validation | PASS |
 | 8 | FEN position mapping | PASS |
-| 9 | Inference latency (~129 ms avg on CPU) | PASS |
+| 9 | Inference latency (~123 ms avg on CPU) | PASS |
 
 ---
 
@@ -76,13 +76,12 @@ PIECE_MODEL = "chess_pieces_v7.onnx"
 ```
 /home/ubuntu/training/
   monitor_v7.py          — Training progress monitor
-  export_v6.py           — v6 export reference script
   export_v7.py           — v7 export script (runs_v7 → chess_pieces_v7.onnx)
 
 /home/ubuntu/chess-training-data/runs_v7/chess-pieces-v7/
   results.csv            — Training metrics (20 epochs)
   weights/
-    best.pt              — Best training weights (6.3 MB)
+    best.pt              — Best training weights (6.2 MB)
     best.onnx            — ONNX export (12.2 MB, local copy)
 
 /home/ubuntu/otb-chess/server/
